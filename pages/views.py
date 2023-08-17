@@ -15,12 +15,18 @@ class HomePageView(View):
             'tags': Tag.objects.all(),
 
         }
-        print(Article.objects.all().values('author'))
-
-        print(CustomUser.objects.all().values('username'))
-
         return render(request, self.template_name, context)
 
 
 class AboutPageView(TemplateView):
     template_name = "pages/about.html"
+
+
+class ExactArticlePageView(View):
+    template_name = 'pages/exact-article-page.html'
+
+    def get(self, request, pk):
+        context = {
+            'exact_article': Article.objects.filter(pk=pk)
+        }
+        return render(request, self.template_name, context)
