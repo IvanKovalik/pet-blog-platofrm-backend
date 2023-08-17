@@ -1,10 +1,62 @@
 {% extends '_base.html' %}
 {% load static %}
 
-{% block title %}Home page{% endblock title %}
+{% block title %}
+    Home page
+{% endblock title %}
 
 {% block content %}
 
-    
+    {% for article in articles %}
+
+        <article style="margin-top: 30px;">
+            <div class="card" style="width: 54rem;">
+                <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
+                    <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
+                         style="margin-left: 2%">
+                    <p style="margin-left: 2.5%; margin-top: 12px;">
+                        {{ article.author.username }}
+                    </p>
+                    <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
+                        {{ article.date_created|timesince }} назад
+                    </p>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="card-title" style="margin-bottom: 2%;">{{ article.name }}</h3>
+
+                    <div style="font-size: 12px; display:flex;">
+                        <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
+                        <p style="margin-left: 1%;">
+                            5 minutes
+                        </p>
+
+                        <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
+                             style="margin-left: 20px; margin-top: 1px;">
+                        <p style="margin-left: 1%;">
+                            {{ article.likes }} views
+                        </p>
+                    </div>
+
+                    {% for tag in article.tags.all %}
+                        <a href="#" class="badge badge-primary"
+                           style="margin-bottom: 1%; font-size: 16px;">{{ tag.name }}</a>
+                        sad
+                    {% endfor %}
+                    <p class="card-text">
+                        {{ article.text|truncatewords:50 }}
+                    </p>
+                    <a href="#" class="btn btn-primary" style="margin-top: 1%;">Read article</a>
+                </div>
+            </div>
+        </article>
+
+    {% endfor %}
 
 {% endblock content %}
+
+<style type="text/css">
+    #text_article_author {
+
+    }
+</style>
