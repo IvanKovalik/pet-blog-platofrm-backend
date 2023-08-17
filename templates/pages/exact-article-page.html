@@ -1,1 +1,79 @@
-Article page
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+    {{ article.name }}
+{% endblock title %}
+
+{% block content %}
+
+    <article style="margin-top: 30px;">
+
+        <div class="card" style="width: 54rem; padding: 10px;">
+            <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
+                <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
+                     style="margin-left: 2%">
+                <p style="margin-left: 2.5%; margin-top: 12px;">
+                    {{ article.author.username }}
+                </p>
+                <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
+                    {{ article.date_article_created|timesince }} назад
+                </p>
+            </div>
+
+            <div class="card-body">
+                <h3 class="card-title" style="margin-bottom: 2%;">
+                    {{ article.name }}
+                </h3>
+
+                <div style="font-size: 12px; display:flex;">
+                    <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
+                    <p style="margin-left: 1%;">
+                        5 minutes
+                    </p>
+
+                    <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
+                         style="margin-left: 20px; margin-top: 1px;">
+                    <p style="margin-left: 1%;">
+                        {{ article.views }} views
+                    </p>
+                </div>
+
+                {% for tag in article.tags.all %}
+                    <a href="../by-tag/{{ tag.slug }}" class="badge badge-primary"
+                       style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
+                                  border: 1px solid #175fc9; :hover{color:#143cd2;}">
+                        {{ tag.name|lower }}
+                    </a>
+                {% endfor %}
+
+                <p class="card-text" style="font-size: 17px; margin-top: 20px;">
+                    {{ article.text }}
+                </p>
+
+                <span style="">
+                    <span style="font-weight: bold; margin-right: 15px;">Tags: </span>
+                    {% for tag in article.tags.all %}
+                        <a href="../by-tag/{{ tag.slug }}" class="badge badge-primary"
+                           style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
+                                  border: 1px solid #175fc9; :hover{color:#143cd2;}">
+                        {{ tag.name|lower }}
+                    </a>
+                    {% endfor %}
+                </span>
+
+                <hr>
+                <div style="display:flex;">
+                    <div>Likes:</div>
+                    <button>Bookmark</button>
+                    <button>Aaah</button>
+                    <button>Comments</button>
+                </div>
+
+            </div>
+
+
+        </div>
+    </article>
+
+{% endblock content %}

@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 from .models import Article
-from accounts.models import CustomUser
 from taggit.models import Tag
 
 
@@ -13,9 +12,11 @@ class HomePageView(View):
         context = {
             'articles': Article.objects.all(),
             'tags': Tag.objects.all(),
-
         }
         return render(request, self.template_name, context)
+
+    def post(self, request):
+        pass
 
 
 class AboutPageView(TemplateView):
@@ -25,8 +26,24 @@ class AboutPageView(TemplateView):
 class ExactArticlePageView(View):
     template_name = 'pages/exact-article-page.html'
 
-    def get(self, request, pk):
+    def get(self, request, id):
         context = {
-            'exact_article': Article.objects.filter(pk=pk)
+            'article': Article.objects.get(id=id),
+        }
+        article = Article.objects.get(id=id)
+        article.views += 1
+        article.save()
+        
+        return render(request, self.template_name, context)
+
+
+class ByTagArticleView(View):
+    template_name = 'pages/by-tag-page.html'
+
+    def get(self, request, tag_slug):
+        tag_id = Tag.objects.get(slug__exact=tag_slug)
+        context = {
+            'articles': Article.objects.filter(tags=tag_id),
+            'tags': Tag.objects.all(),
         }
         return render(request, self.template_name, context)

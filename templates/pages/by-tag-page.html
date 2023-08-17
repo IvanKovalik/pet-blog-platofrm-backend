@@ -44,7 +44,7 @@
                     </div>
 
                     {% for tag in article.tags.all %}
-                        <a href="articles/by-tag/{{ tag.slug }}" class="badge badge-primary"
+                        <a href="../{{ tag.slug }}" class="badge badge-primary"
                            style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
                                   border: 1px solid #175fc9; :hover{color:#143cd2;}">
                             {{ tag.name|lower }}
@@ -53,8 +53,9 @@
                     <p class="card-text">
                         {{ article.text|truncatewords:50 }}
                     </p>
-                    <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">Read
-                        article</a>
+                    <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
+                        Read article
+                    </a>
                 </div>
             </div>
         </article>
