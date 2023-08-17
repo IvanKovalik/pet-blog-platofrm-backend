@@ -7,58 +7,99 @@
 
 {% block content %}
 
-    {% for article in articles %}
+    <div style='display:flex'>
 
-        <article style="margin-top: 30px;">
-            <div class="card" style="width: 54rem;">
-                <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
-                    <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
-                         style="margin-left: 2%">
-                    <p style="margin-left: 2.5%; margin-top: 12px;">
-                        {{ article.author.username }}
-                    </p>
-                    <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
-                        {{ article.date_article_created|timesince }} назад
-                    </p>
-                </div>
+        <div style="flex: 1; justify-content: left">
+            {% for article in articles %}
 
-                <div class="card-body">
-                    <h3 class="card-title" style="margin-bottom: 2%;">
-                        <a href="/articles/{{ article.id }}" class="link-secondary"
-                           style="color: black; text-decoration: unset">
-                            {{ article.name }}
-                        </a>
-                    </h3>
+                <article style="margin-top: 30px;">
+                    <div class="card" style="width: 54rem;">
+                        <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
+                            <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
+                                 style="margin-left: 2%">
+                            <p style="margin-left: 2.5%; margin-top: 12px;">
+                                {{ article.author.username }}
+                            </p>
+                            <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
+                                {{ article.date_article_created|timesince }} назад
+                            </p>
+                        </div>
 
-                    <div style="font-size: 12px; display:flex;">
-                        <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
-                        <p style="margin-left: 1%;">
-                            5 minutes
-                        </p>
+                        <div class="card-body">
+                            <h3 class="card-title" style="margin-bottom: 2%;">
+                                <a href="/articles/{{ article.id }}" class="link-secondary"
+                                   style="color: black; text-decoration: unset">
+                                    {{ article.name }}
+                                </a>
+                            </h3>
 
-                        <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
-                             style="margin-left: 20px; margin-top: 1px;">
-                        <p style="margin-left: 1%;">
-                            {{ article.views }} views
-                        </p>
-                    </div>
+                            <div style="font-size: 12px; display:flex;">
+                                <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
+                                <p style="margin-left: 1%;">
+                                    5 minutes
+                                </p>
 
-                    {% for tag in article.tags.all %}
-                        <a href="articles/by-tag/{{ tag.slug }}" class="badge badge-primary"
-                           style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
+                                <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
+                                     style="margin-left: 20px; margin-top: 1px;">
+                                <p style="margin-left: 1%;">
+                                    {{ article.views }} views
+                                </p>
+                            </div>
+
+                            {% for tag in article.tags.all %}
+                                <a href="articles/by-tag/{{ tag.slug }}" class="badge badge-primary"
+                                   style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
                                   border: 1px solid #175fc9; :hover{color:#143cd2;}">
-                            {{ tag.name|lower }}
-                        </a>
-                    {% endfor %}
-                    <p class="card-text">
-                        {{ article.text|truncatewords:50 }}
-                    </p>
-                    <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">Read
-                        article</a>
-                </div>
-            </div>
-        </article>
+                                    {{ tag.name|lower }}
+                                </a>
+                            {% endfor %}
+                            <p class="card-text">
+                                {{ article.text|truncatewords:50 }}
+                            </p>
+                            <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
+                                Read article
+                            </a>
+                        </div>
+                    </div>
+                </article>
 
-    {% endfor %}
+            {% endfor %}
+        </div>
+
+        <div style="flex-direction: column; justify-content: right">
+            <div>
+                <a href="#" class="btn btn-primary"
+                   style="margin-top: 2rem; width: 14rem; margin-left: 4rem; margin-bottom: 2rem;">
+                    Create article
+                </a>
+            </div>
+
+            <div class="card" style="width: 22rem;">
+                <div class="card-body" style="display:flex; flex-direction: column;">
+                    <h6 style="margin-bottom: 0; margin-left: 2.5%; margin-top: 1%; font-weight: bold;">Best
+                        authors</h6>
+                    <hr>
+                    {% for article in top_viewed_articles %}
+                        <span style="margin-bottom: 3.5%;">
+                            <img src="#" alt="">
+                            <span>{{ article.author }}</span>
+                            <span style="justify-content: right">{{ article.views }}</span>
+                        </span>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="card" style="width: 22rem;">
+                <p>Card</p>
+                <p>asdsadsadsada</p>
+                <p>sadadadadasd</p>
+            </div>
+
+        </div>
+
+
+    </div>
 
 {% endblock content %}

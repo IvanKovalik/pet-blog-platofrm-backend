@@ -1,8 +1,10 @@
+from django.db.models import QuerySet
 from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 from .models import Article
 from taggit.models import Tag
+from itertools import chain
 
 
 class HomePageView(View):
@@ -12,7 +14,9 @@ class HomePageView(View):
         context = {
             'articles': Article.objects.all(),
             'tags': Tag.objects.all(),
+            'top_viewed_articles': Article.objects.order_by('-views')[:7],
         }
+
         return render(request, self.template_name, context)
 
     def post(self, request):
@@ -33,7 +37,7 @@ class ExactArticlePageView(View):
         article = Article.objects.get(id=id)
         article.views += 1
         article.save()
-        
+
         return render(request, self.template_name, context)
 
 
