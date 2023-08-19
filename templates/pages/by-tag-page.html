@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+
 {% load static %}
 
 {% block title %}
@@ -7,59 +8,66 @@
 
 {% block content %}
 
-    {% for article in articles %}
+    <div style='display:flex'>
 
-        <article style="margin-top: 30px;">
-            <div class="card" style="width: 54rem;">
-                <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
-                    <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
-                         style="margin-left: 2%">
-                    <p style="margin-left: 2.5%; margin-top: 12px;">
-                        {{ article.author.username }}
-                    </p>
-                    <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
-                        {{ article.date_article_created|timesince }} назад
-                    </p>
-                </div>
+        {% for article in articles %}
 
-                <div class="card-body">
-                    <h3 class="card-title" style="margin-bottom: 2%;">
-                        <a href="/articles/{{ article.id }}" class="link-secondary"
-                           style="color: black; text-decoration: unset">
-                            {{ article.name }}
-                        </a>
-                    </h3>
-
-                    <div style="font-size: 12px; display:flex;">
-                        <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
-                        <p style="margin-left: 1%;">
-                            5 minutes
+            <div style="flex: 1; justify-content: left">
+            <article style="margin-top: 30px;">
+                <div class="card" style="width: 54rem;">
+                    <div class="card-img-top" style="margin-top: 13px; align-content: center; display:flex;">
+                        <img src="{% static 'user-avatars/def_avatar.jpg' %}" alt="avatar" height="48" width="48"
+                             style="margin-left: 2%">
+                        <p style="margin-left: 2.5%; margin-top: 12px;">
+                            {{ article.author.username }}
                         </p>
-
-                        <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
-                             style="margin-left: 20px; margin-top: 1px;">
-                        <p style="margin-left: 1%;">
-                            {{ article.views }} views
+                        <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
+                            {{ article.date_article_created|timesince }} назад
                         </p>
                     </div>
 
-                    {% for tag in article.tags.all %}
-                        <a href="../{{ tag.slug }}" class="badge badge-primary"
-                           style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
-                                  border: 1px solid #175fc9; :hover{color:#143cd2;}">
-                            {{ tag.name|lower }}
-                        </a>
-                    {% endfor %}
-                    <p class="card-text">
-                        {{ article.text|truncatewords:50 }}
-                    </p>
-                    <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
-                        Read article
-                    </a>
-                </div>
-            </div>
-        </article>
+                    <div class="card-body">
+                        <h3 class="card-title" style="margin-bottom: 2%;">
+                            <a href="/articles/{{ article.id }}" class="link-secondary"
+                               style="color: black; text-decoration: unset">
+                                {{ article.name }}
+                            </a>
+                        </h3>
 
-    {% endfor %}
+                        <div style="font-size: 12px; display:flex;">
+                            <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
+                            <p style="margin-left: 1%;">
+                                {{ article.text | wordcount }}
+                            </p>
+
+                            <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
+                                 style="margin-left: 20px; margin-top: 1px;">
+                            <p style="margin-left: 1%;">
+                                {{ article.views }} views
+                            </p>
+                        </div>
+
+                        {% for tag in article.tags.all %}
+                            <a href="../{{ tag.slug }}" class="badge badge-primary"
+                               style="margin-bottom: 1%; font-size: 16px; color:#1f8ad5; text-decoration: unset;
+                                  border: 1px solid #175fc9; :hover{color:#143cd2;}">
+                                {{ tag.name|lower }}
+                            </a>
+                        {% endfor %}
+                        <p class="card-text">
+                            {{ article.text|truncatewords:50 }}
+                        </p>
+                        <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
+                            Read article
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        {% endfor %}
+
+        </div>
+
+    </div>
 
 {% endblock content %}

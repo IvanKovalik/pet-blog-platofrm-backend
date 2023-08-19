@@ -1,5 +1,13 @@
 from django import forms
+from .models import Article
 
 
-class ArticleCreateForm(forms.Form):
-    pass
+class ArticleCreateForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = [
+            'name',
+            'text',
+            'logo_image',
+            'tags'
+        ]
