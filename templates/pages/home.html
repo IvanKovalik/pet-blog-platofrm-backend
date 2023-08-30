@@ -21,7 +21,7 @@
                                 {{ article.author.username }}
                             </p>
                             <p style="margin-left: 2.5%; margin-top: 16px; font-size: 12px;">
-                                {{ article.date_article_created|timesince }} назад
+                                {{ article.date_article_created|timesince }} ago
                             </p>
                         </div>
 
@@ -59,6 +59,14 @@
                             <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
                                 Read article
                             </a>
+
+                            <hr>
+                            <div>
+                                <span>Likes</span>
+                                <span>Bookmarks</span>
+                                <span>share</span>
+                                <span>comments</span>
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -85,14 +93,19 @@
 
             <div class="card" style="width: 22rem;">
                 <div class="card-body" style="display:flex; flex-direction: column;">
-                    <h6 style="margin-bottom: 0; margin-left: 2.5%; margin-top: 1%; font-weight: bold;">Best
-                        authors</h6>
+                    <h6 style="margin-bottom: 0; margin-left: 2.5%; margin-top: 1%; font-weight: bold;">
+                        Top viewed articles
+                    </h6>
+
                     <hr>
 
                     {% for article in top_viewed_articles %}
                         <span style="margin-bottom: 3.5%;">
-                            <img src="#" alt="">
-                            <span>{{ article.author }}</span>
+                            <span style="margin-left: 0.55rem;">
+                                <a href="/articles/{{ article.id }}" style="text-decoration: none; color: forestgreen">
+                                    {{ article.name }}
+                                </a>
+                            </span>
                             <span style="justify-content: right">{{ article.views }}</span>
                         </span>
                     {% endfor %}
