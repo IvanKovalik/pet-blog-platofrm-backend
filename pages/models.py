@@ -19,6 +19,11 @@ class Article(Model):
 
     tags = TaggableManager()
 
+    @staticmethod
+    def get_reading_time_in_seconds(self):
+        spaces = self.text.count(' ')
+        return spaces // 120
+
     def __str__(self):
         return self.name
 

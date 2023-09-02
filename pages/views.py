@@ -1,3 +1,4 @@
+from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import TemplateView, CreateView
@@ -12,35 +13,16 @@ MAX_ARTICLES_ON_PAGE = 12
 class HomePageView(View):
     template_name = "pages/home.html"
 
-    @staticmethod
-    def get_best_authors():
-        # TODO I think there is some django methods or technique to do this
-
-        max_id = CustomUser.objects.order_by('-id').values('id').first()['id']
-        best_authors = {}
-        views_per_user = []
-        for i in range(1, max_id + 1, 1):
-            article_views_per_user = Article.objects.filter(author_id=i).values('views')
-            for j in article_views_per_user:
-                views_per_user.append(j['views'])
-
-            best_authors[i] = sum(views_per_user)
-            views_per_user.clear()
-
-        best_authors = sorted(best_authors.items())
-        print(best_authors)
-
-        return best_authors
-
     def get(self, request):
+        # from .services.fake_article_factory import create_many_articles
+        # create_many_articles(100)
+
         context = {
             'articles': Article.objects.order_by('-date_article_created')[:MAX_ARTICLES_ON_PAGE],
             'tags': Tag.objects.all(),
             'top_viewed_articles': Article.objects.order_by('-views')[:5],
-            # 'top-viewed-authors': Article.objects.order_by('')
+            # 'top-viewed-authors': self.get_best_authors(),
         }
-
-        # self.get_best_authors()
 
         return render(request, self.template_name, context)
 

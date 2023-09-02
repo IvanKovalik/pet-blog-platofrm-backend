@@ -36,7 +36,7 @@
                             <div style="font-size: 12px; display:flex;">
                                 <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
                                 <p style="margin-left: 1%;">
-                                    {{ article.text | wordcount }} minute to read
+                                    {{ article.get_reading_time_in_seconds }} minute to read
                                 </p>
 
                                 <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
@@ -53,6 +53,9 @@
                                     {{ tag.name|lower }}
                                 </a>
                             {% endfor %}
+
+{#                            <img height="300" width="100%" src="{{ article.logo_image }}" alt="">#}
+                        
                             <p class="card-text">
                                 {{ article.text|truncatewords:50 }}
                             </p>
@@ -114,10 +117,25 @@
 
             </div>
 
+            <div style="margin-top: 1.25rem;"></div>
+
             <div class="card" style="width: 22rem;">
-                <p>Card</p>
-                <p>asdsadsadsada</p>
-                <p>sadadadadasd</p>
+                <div class="card-body" style="display:flex; flex-direction: column;">
+                    <h6 style="margin-bottom: 0; margin-left: 2.5%; margin-top: 1%; font-weight: bold;">
+                        Top viewed authors
+                    </h6>
+                    <hr>
+                    {% for author in top_viewed_authors %}
+                        <span style="margin-bottom: 3.5%;">
+                            <span style="margin-left: 0.55rem;">
+                                <a href="" style="text-decoration: none; color: forestgreen">
+                                    {{ author }}
+                                </a>
+                            </span>
+{#                            <span style="justify-content: right">{{ article.views }}</span>#}
+                        </span>
+                    {% endfor %}
+                </div>
             </div>
 
         </div>
