@@ -1,4 +1,5 @@
 {% extends '_base.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 {% block title %}
@@ -29,7 +30,7 @@
                 <div style="font-size: 12px; display:flex;">
                     <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
                     <p style="margin-left: 1%;">
-                        5 minutes
+                        {{ article.reading_time }}
                     </p>
 
                     <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
@@ -65,13 +66,39 @@
                 <hr>
                 <div style="display:flex;">
                     <div>Likes:</div>
-                    <button>Bookmark</button>
-                    <button>Aaah</button>
-                    <button>Comments</button>
+                    <div>Bookmark</div>
+                    <div>Aaah</div>
+                    <div>Comments</div>
                 </div>
 
             </div>
         </div>
+
+        <div class="col-md-8 card mb-4  mt-3 ">
+            <div class="card-body">
+                <!-- comments -->
+                {% with comments.count as total_comments %}
+                    <h2>{{ total_comments }} comments</h2>
+
+                    <p>
+                {% endwith %} {% for comment in comments %}
+                </p>
+
+                <div class="comments" style="padding: 10px;">
+                    <p class="font-weight-bold">
+                        {{ comment.name }}
+                        <span class=" text-muted font-weight-normal">
+                                    {{ comment.created_on }}
+                                </span>
+                    </p>
+                    {{ comment.body | linebreaks }}
+                </div>
+
+            {% endfor %}
+            </div>
+        </div>
+
+
     </article>
 
 {% endblock content %}

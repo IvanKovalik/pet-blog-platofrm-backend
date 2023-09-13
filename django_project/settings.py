@@ -19,12 +19,9 @@ INSTALLED_APPS = [
     "django.contrib.sites",
 
     # Third-party
-    "allauth",
-    "allauth.account",
     "crispy_forms",
     "crispy_bootstrap5",
     "debug_toolbar",
-    "tailwind",
     "taggit",
 
     # Local
@@ -71,17 +68,11 @@ DATABASES = {
     }
 }
 
-# For Docker/PostgreSQL usage uncomment this and comment the DATABASES config above
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "postgres",
-#         "USER": "postgres",
-#         "PASSWORD": "postgres",
-#         "HOST": "db",  # set in docker-compose.yml
-#         "PORT": 5432,  # default postgres port
-#     }
-# }
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,5 +132,6 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+EMAIL_HOST = ''
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

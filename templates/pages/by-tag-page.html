@@ -37,7 +37,7 @@
                         <div style="font-size: 12px; display:flex;">
                             <img src="{% static 'images/clock_icon.png' %}" height="15px" width="15px" alt="">
                             <p style="margin-left: 1%;">
-                                {{ article.text | wordcount }}
+                                {{ article.reading_time }}
                             </p>
 
                             <img src="{% static 'images/views_icon.webp' %}" height="15px" width="15px" alt=""
@@ -55,7 +55,7 @@
                             </a>
                         {% endfor %}
                         <p class="card-text">
-                            {{ article.text|truncatewords:50 }}
+                            {{ article.text|truncatewords:36 }}
                         </p>
                         <a href="/articles/{{ article.id }}" class="btn btn-primary" style="margin-top: 1%;">
                             Read article

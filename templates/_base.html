@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
     <title>
         {% block title %}
-            DjangoX
+            Django blog platform
         {% endblock title %}
     </title>
     <meta name="description" content="A framework for launching new Django projects quickly.">
@@ -43,7 +43,7 @@
     {% endblock javascript %}
 </head>
 
-<body>
+<body style="margin-bottom: 0;">
 <header>
     {% include 'components/navbar.html' %}
 </header>
@@ -56,9 +56,17 @@
 </div>
 
 
-{#<footer id="footer" class="footer">#}
-{#    {% include 'components/footer.html' %}#}
-{#</footer>#}
+<footer class="container-fluid"
+        style="background-color: #f5f1f1; margin-bottom: 0; padding: 1.25rem; margin-top: 6.5rem;">
+    <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-muted" style="margin-left: 5rem; font-size: 16px;">
+            Made by Kovalik Ivan with <a href="https://docs.djangoproject.com/en/4.2/"
+                                         style="color: forestgreen;
+                                         text-decoration: none;">
+            Django</a>
+        </span>
+    </div>
+</footer>
 
 
 </body>

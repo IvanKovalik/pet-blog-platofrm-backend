@@ -1,11 +1,12 @@
-from django.db.models import QuerySet
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView, CreateView
 from .models import Article
 from taggit.models import Tag
-from .forms import ArticleCreateForm
-from accounts.models import CustomUser
+from .forms import ArticleCreateForm, CommentCreateForm
 
 MAX_ARTICLES_ON_PAGE = 12
 
@@ -21,7 +22,6 @@ class HomePageView(View):
             'articles': Article.objects.order_by('-date_article_created')[:MAX_ARTICLES_ON_PAGE],
             'tags': Tag.objects.all(),
             'top_viewed_articles': Article.objects.order_by('-views')[:5],
-            # 'top-viewed-authors': self.get_best_authors(),
         }
 
         return render(request, self.template_name, context)
@@ -34,18 +34,22 @@ class AboutPageView(TemplateView):
     template_name = "pages/about.html"
 
 
-class ExactArticlePageView(View):
+class ExactArticlePageView(CreateView):
     template_name = 'pages/exact-article-page.html'
 
-    def get(self, request, id):
+    def get(self, request, *args, **kwargs):
         context = {
-            'article': Article.objects.get(id=id),
+            'article': Article.objects.get(id=kwargs['id']),
+            # 'comments':
         }
-        article = Article.objects.get(id=id)
+        article = Article.objects.get(id=kwargs['id'])
         article.views += 1
         article.save()
 
         return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        pass
 
 
 class ByTagArticleView(View):
@@ -75,3 +79,27 @@ class CreateArticleView(CreateView):
             form.save()
             return redirect('home')
         return render(request, self.template_name, context={'form': form})
+
+
+class CommentCreateView(CreateView):
+    form_class = CommentCreateForm
+    template_name = ''
+
+    @method_decorator(csrf_protect)
+    def dispatch(self, *args, **kwargs):
+        return super(CommentCreateView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        article_id = self.kwargs['article_id']
+        article = get_object_or_404(Article, pk=article_id)
+        url = article.get_absolute_url()
+        return HttpResponseRedirect(url + "#comments")
+
+    def form_invalid(self, form):
+        article_id = self.kwargs['article_id']
+        article = get_object_or_404(Article, pk=article_id)
+
+        return self.render_to_response({
+            'form': form,
+            'article': article
+        })
