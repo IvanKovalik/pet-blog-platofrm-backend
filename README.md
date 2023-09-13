@@ -1,4 +1,4 @@
-PET PROJECT -- BLOG
+# PET PROJECT -- BLOG
 
 ЭТОТ ПРОЕКТ СОДЕРЖИТ ИЗЛИШНЕЕ КОЛИЧЕСТВО БЭКЭНД КОДА
 ПРОЕКТ СОЗДАН НА Django and DRF
