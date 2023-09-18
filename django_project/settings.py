@@ -23,10 +23,13 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "debug_toolbar",
     "taggit",
+    "rest-framework",
 
     # Local
     "accounts",
     "pages",
+    "recommendations",
+    "api",
 ]
 
 MIDDLEWARE = [

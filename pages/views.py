@@ -1,7 +1,7 @@
-from django.http import HttpResponseRedirect
+from typing import Any
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.decorators import method_decorator
-from django.views import View
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import TemplateView, CreateView
 from .models import Article
@@ -11,7 +11,7 @@ from .forms import ArticleCreateForm, CommentCreateForm
 MAX_ARTICLES_ON_PAGE = 12
 
 
-class HomePageView(View):
+class HomePageView(CreateView):
     template_name = "pages/home.html"
 
     def get(self, request):
@@ -26,8 +26,8 @@ class HomePageView(View):
 
         return render(request, self.template_name, context)
 
-    def post(self, request):
-        pass
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
 
 class AboutPageView(TemplateView):
@@ -48,11 +48,11 @@ class ExactArticlePageView(CreateView):
 
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        pass
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
 
-class ByTagArticleView(View):
+class ByTagArticleView(CreateView):
     template_name = 'pages/by-tag-page.html'
 
     def get(self, request, tag_slug):
@@ -62,6 +62,9 @@ class ByTagArticleView(View):
             'tags': Tag.objects.all(),
         }
         return render(request, self.template_name, context)
+    
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().post(request, *args, **kwargs)
 
 
 class CreateArticleView(CreateView):

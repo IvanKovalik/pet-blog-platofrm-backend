@@ -1,6 +1,5 @@
 import logging
 from django import forms
-from haystack.forms import SearchForm
 
 from .models import Article, Comment
 
@@ -28,7 +27,7 @@ class CommentCreateForm(forms.ModelForm):
         ]
 
 
-class BlogSearchForm(SearchForm):
+class BlogSearchForm(forms.Form):
     query = forms.CharField(required=True)
 
     def search(self):
